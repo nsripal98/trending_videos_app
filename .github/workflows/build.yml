@@ -1,0 +1,95 @@
+name: Build APK with Buildozer
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Java 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          python3-pip \
+          build-essential \
+          git \
+          python3-dev \
+          ffmpeg \
+          libsdl2-dev \
+          libsdl2-image-dev \
+          libsdl2-mixer-dev \
+          libsdl2-ttf-dev \
+          libportmidi-dev \
+          libswscale-dev \
+          libavformat-dev \
+          libavcodec-dev \
+          zlib1g-dev \
+          libgstreamer1.0 \
+          gstreamer1.0-plugins-base \
+          gstreamer1.0-plugins-good \
+          libgstreamer1.0-dev \
+          libunwind-dev \
+          autoconf \
+          automake \
+          libtool \
+          libtool-bin \
+          libffi-dev \
+          libssl-dev \
+          zip \
+          unzip \
+          autopoint \
+          pkg-config \
+          m4 \
+          gettext \
+          autoconf-archive
+
+    - name: Install buildozer
+      run: |
+        python -m pip install --upgrade pip wheel setuptools
+        pip install --upgrade Cython==0.29.33 virtualenv buildozer
+
+    - name: Configure build environment
+      run: |
+        sudo mkdir -p /usr/share/libtool/config
+        sudo cp /usr/share/libtool/build-aux/config.* /usr/share/libtool/config/
+        sudo libtoolize --force
+        sudo aclocal -I /usr/share/aclocal
+        sudo autoheader
+        sudo automake --force-missing --add-missing
+        sudo autoconf
+
+    - name: Accept Android licenses
+      run: |
+        yes | sudo ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager --licenses
+
+    - name: Set JAVA_HOME
+      run: |
+        echo "JAVA_HOME=$JAVA_HOME_17_X64" >> $GITHUB_ENV
+
+    - name: Build APK
+      run: |
+        buildozer android debug
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: moneymanager-debug
+        path: bin/*.apk

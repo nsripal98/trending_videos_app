@@ -1,0 +1,68 @@
+#:kivy 2.1.0
+
+<DailyTransactions>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        md_bg_color: "1a1f2b"
+
+        # Month Navigation
+        MDTopAppBar:
+            title: "Jan 2025"
+            left_action_items: [["chevron-left", lambda x: root.previous_month()]]
+            right_action_items: [
+                ["star-outline", lambda x: root.toggle_favorite()],
+                ["magnify", lambda x: root.search()],
+                ["menu", lambda x: root.show_menu()]
+            ]
+            md_bg_color: "1a1f2b"
+            specific_text_color: "ffffff"
+
+        # Summary Section
+        MDBoxLayout:
+            orientation: 'vertical'
+            adaptive_height: True
+            padding: "16dp"
+            md_bg_color: "1a1f2b"
+
+            # Income/Expense Summary
+            MDGridLayout:
+                cols: 3
+                spacing: "16dp"
+                adaptive_height: True
+
+                MDLabel:
+                    text: "Income"
+                    theme_text_color: "Custom"
+                    text_color: "4CAF50"
+                MDLabel:
+                    text: "Expenses"
+                    theme_text_color: "Custom" 
+                    text_color: "F44336"
+                MDLabel:
+                    text: "Total"
+                    theme_text_color: "Custom"
+                    text_color: "ffffff"
+
+                MDLabel:
+                    text: "₹ 0.00"
+                    theme_text_color: "Custom"
+                    text_color: "4CAF50"
+                MDLabel:
+                    text: "₹ 783.65"
+                    theme_text_color: "Custom"
+                    text_color: "F44336"
+                MDLabel:
+                    text: "₹ -783.65"
+                    theme_text_color: "Custom"
+                    text_color: "F44336"
+
+        # Transaction List
+        RecycleView:
+            viewclass: 'TransactionItem'
+            RecycleBoxLayout:
+                default_size: None, dp(72)
+                default_size_hint: 1, None
+                size_hint_y: None
+                height: self.minimum_height
+                orientation: 'vertical'
+                spacing: dp(2)

@@ -1,0 +1,75 @@
+#:kivy 2.1.0
+
+<MainScreen>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        md_bg_color: "1a1f2b"
+
+        # Top Bar
+        MDTopAppBar:
+            title: "Jan 2025"
+            left_action_items: [["chevron-left", lambda x: root.previous_month()]]
+            right_action_items: [
+                ["star-outline", lambda x: root.toggle_favorite()],
+                ["magnify", lambda x: root.search()],
+                ["menu", lambda x: root.show_menu()]
+            ]
+            md_bg_color: "223344"
+            specific_text_color: "ffffff"
+
+        # Main Content
+        MDTabs:
+            id: tabs
+            background_color: "223344"
+            text_color_normal: "888888"
+            text_color_active: "ffffff"
+            indicator_color: "ff4444"
+            
+            Tab:
+                title: "Daily"
+                DailyView:
+            Tab:
+                title: "Calendar"
+            Tab:
+                title: "Monthly"
+            Tab:
+                title: "Total"
+            Tab:
+                title: "Note"
+
+        # Bottom Navigation
+        MDBottomNavigation:
+            panel_color: "223344"
+            selected_color_background: "334455"
+            text_color_active: "ffffff"
+
+            MDBottomNavigationItem:
+                name: 'trans'
+                text: 'Trans.'
+                icon: 'file-document-outline'
+                on_tab_press: root.switch_tab('trans')
+                
+            MDBottomNavigationItem:
+                name: 'stats'
+                text: 'Stats'
+                icon: 'chart-line'
+                on_tab_press: root.switch_tab('stats')
+                
+            MDBottomNavigationItem:
+                name: 'accounts'
+                text: 'Accounts'
+                icon: 'wallet'
+                on_tab_press: root.switch_tab('accounts')
+                
+            MDBottomNavigationItem:
+                name: 'more'
+                text: 'More'
+                icon: 'dots-horizontal'
+                on_tab_press: root.switch_tab('more')
+
+        # FAB
+        MDFloatingActionButton:
+            icon: "plus"
+            pos_hint: {"right": .95, "y": .05}
+            md_bg_color: "ff4444"
+            on_release: root.show_transaction_form()

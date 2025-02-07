@@ -1,0 +1,94 @@
+#:kivy 2.1.0
+
+<DailyView>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        md_bg_color: "1a1f2b"
+
+        # Summary Section
+        MDBoxLayout:
+            orientation: 'vertical'
+            adaptive_height: True
+            padding: "16dp"
+            spacing: "8dp"
+
+            # Income/Expense Summary
+            MDGridLayout:
+                cols: 3
+                spacing: "16dp"
+                adaptive_height: True
+
+                # Income
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    adaptive_height: True
+                    
+                    MDLabel:
+                        text: "Income"
+                        theme_text_color: "Secondary"
+                        font_style: "Caption"
+                    MDLabel:
+                        text: "₹ 0.00"
+                        theme_text_color: "Custom"
+                        text_color: "4CAF50"  # Green
+                        font_style: "H6"
+
+                # Expenses
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    adaptive_height: True
+                    
+                    MDLabel:
+                        text: "Expenses"
+                        theme_text_color: "Secondary"
+                        font_style: "Caption"
+                    MDLabel:
+                        text: "₹ 783.65"
+                        theme_text_color: "Custom"
+                        text_color: "F44336"  # Red
+                        font_style: "H6"
+
+                # Total
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    adaptive_height: True
+                    
+                    MDLabel:
+                        text: "Total"
+                        theme_text_color: "Secondary"
+                        font_style: "Caption"
+                    MDLabel:
+                        text: "₹ -783.65"
+                        theme_text_color: "Custom"
+                        text_color: "F44336"  # Red
+                        font_style: "H6"
+
+            # Repeat Transactions
+            MDCard:
+                orientation: 'horizontal'
+                padding: "8dp"
+                spacing: "8dp"
+                md_bg_color: "223344"
+                adaptive_height: True
+
+                MDLabel:
+                    text: "Repeat"
+                    theme_text_color: "Secondary"
+                    size_hint_x: 0.2
+                MDLabel:
+                    text: "1/6, 1/7, 1/8, 1/9, 1/10, 1/13..."
+                    theme_text_color: "Secondary"
+                    size_hint_x: 0.5
+                MDLabel:
+                    text: "₹ -5,224.30"
+                    theme_text_color: "Custom"
+                    text_color: "F44336"
+                    size_hint_x: 0.3
+                    halign: "right"
+
+        # Transaction List
+        ScrollView:
+            MDList:
+                id: transaction_list
+                padding: "8dp"
+                spacing: "4dp"

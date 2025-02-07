@@ -1,0 +1,145 @@
+#:kivy 2.1.0
+
+<TransactionForm>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        md_bg_color: "1a1f2b"
+
+        # Top Bar
+        MDTopAppBar:
+            title: root.form_title
+            left_action_items: [["arrow-left", lambda x: root.go_back()]]
+            right_action_items: [["star-outline", lambda x: root.toggle_favorite()]]
+            md_bg_color: "1a1f2b"
+            specific_text_color: "ffffff"
+
+        # Main Content
+        ScrollView:
+            MDBoxLayout:
+                orientation: 'vertical'
+                padding: "16dp"
+                spacing: "16dp"
+                adaptive_height: True
+
+                # Transaction Type Buttons
+                MDBoxLayout:
+                    adaptive_height: True
+                    spacing: "8dp"
+                    
+                    MDRaisedButton:
+                        text: "Income"
+                        md_bg_color: root.get_type_color('income')
+                        on_release: root.set_type('income')
+                        
+                    MDRaisedButton:
+                        text: "Expense"
+                        md_bg_color: root.get_type_color('expense')
+                        on_release: root.set_type('expense')
+                        
+                    MDRaisedButton:
+                        text: "Transfer"
+                        md_bg_color: root.get_type_color('transfer')
+                        on_release: root.set_type('transfer')
+
+                # Date Row
+                MDBoxLayout:
+                    adaptive_height: True
+                    spacing: "16dp"
+                    
+                    MDLabel:
+                        text: "Date"
+                        theme_text_color: "Secondary"
+                        size_hint_x: 0.2
+                    
+                    MDLabel:
+                        text: root.current_date
+                        theme_text_color: "Primary"
+                        size_hint_x: 0.6
+                    
+                    MDIconButton:
+                        icon: "repeat"
+                        tooltip_text: "Rep/Inst."
+                        size_hint_x: 0.2
+
+                # Form Fields
+                MDTextField:
+                    id: account_field
+                    hint_text: "Account"
+                    mode: "rectangle"
+                    line_color_normal: "666666"
+                    
+                MDTextField:
+                    id: category_field
+                    hint_text: "Category"
+                    mode: "rectangle"
+                    line_color_normal: "666666"
+                    
+                MDTextField:
+                    id: amount_field
+                    hint_text: "Amount"
+                    mode: "rectangle"
+                    line_color_normal: "666666"
+                    input_filter: "float"
+                    
+                MDTextField:
+                    id: note_field
+                    hint_text: "Note"
+                    mode: "rectangle"
+                    line_color_normal: "666666"
+                    multiline: True
+                    
+                MDBoxLayout:
+                    adaptive_height: True
+                    spacing: "8dp"
+                    
+                    MDTextField:
+                        id: description_field
+                        hint_text: "Description"
+                        mode: "rectangle"
+                        line_color_normal: "666666"
+                        size_hint_x: 0.9
+                        
+                    MDIconButton:
+                        icon: "camera"
+                        size_hint_x: 0.1
+                
+                # Account Types
+                MDLabel:
+                    text: "Accounts"
+                    theme_text_color: "Secondary"
+                    adaptive_height: True
+                
+                MDGridLayout:
+                    cols: 3
+                    spacing: "8dp"
+                    adaptive_height: True
+                    
+                    MDRaisedButton:
+                        text: "Cash"
+                        size_hint_x: 1
+                        md_bg_color: "223344"
+                        
+                    MDRaisedButton:
+                        text: "Account"
+                        size_hint_x: 1
+                        md_bg_color: "223344"
+                        
+                    MDRaisedButton:
+                        text: "Card"
+                        size_hint_x: 1
+                        md_bg_color: "223344"
+                        
+                    MDRaisedButton:
+                        text: "Hdfc Creditcard"
+                        size_hint_x: 1
+                        md_bg_color: "223344"
+                        
+                    MDRaisedButton:
+                        text: "Sg-Card"
+                        size_hint_x: 1
+                        md_bg_color: "223344"
+                        
+                    MDRaisedButton:
+                        text: "QRCode"
+                        size_hint_x: 1
+                        md_bg_color: "223344"
