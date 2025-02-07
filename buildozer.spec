@@ -1,17 +1,17 @@
 [app]
-title = MoneyManager
-package.name = moneymanager
+title = TrendingVideos
+package.name = trendingvideos
 package.domain = org.example
 
 source.dir = .
 source.include_exts = py,png,jpg,kv,atlas
 source.exclude_dirs = tests, bin, venv, .git
-source.exclude_patterns = LICENSE,*.spec,*.md
-version = 0.1
+source.exclude_patterns = LICENSE,README.md,*.spec,*.md,*.am,*.ac,*.in
+version = 1.0
 
-requirements = python3,kivy==2.1.0,kivymd==1.1.1,pillow
+requirements = python3,kivy==2.1.0,kivymd==1.1.1,pillow,requests,google-api-python-client,google-auth-httplib2,google-auth-oauthlib,beautifulsoup4,python-dotenv
 
-android.permissions = INTERNET, READ_SMS
+android.permissions = INTERNET
 
 android.api = 31
 android.minapi = 21

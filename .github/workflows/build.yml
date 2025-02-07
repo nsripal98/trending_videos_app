@@ -56,35 +56,17 @@ jobs:
           zip \
           unzip \
           pkg-config \
-          gettext \
-          autoconf-archive
+          gettext
 
     - name: Install buildozer
       run: |
         python -m pip install --upgrade pip wheel setuptools
         pip install --upgrade Cython==0.29.33 virtualenv buildozer
 
-    - name: Configure autotools
+    - name: Initialize autotools
       run: |
-        sudo apt-get install -y autotools-dev
-        sudo apt-get install -y libtool-bin
-        sudo apt-get install -y autoconf-archive
-        sudo apt-get install -y automake
-        sudo apt-get install -y m4
-        
-        # Create necessary directories
-        sudo mkdir -p /usr/share/libtool/build-aux
-        sudo mkdir -p /usr/share/libtool/config
-        
-        # Copy config files
-        sudo cp /usr/share/libtool/build-aux/config.* /usr/share/libtool/config/ || true
-        
-        # Run autotools commands
-        libtoolize --force
-        aclocal
-        autoheader
-        automake --force-missing --add-missing
-        autoconf
+        autoreconf --install
+        ./configure
 
     - name: Accept Android licenses
       run: |
