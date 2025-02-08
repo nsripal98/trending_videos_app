@@ -13,18 +13,12 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Set up Java 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.9'
 
-    - name: Install system dependencies
+    - name: Install dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y \
@@ -46,35 +40,22 @@ jobs:
           gstreamer1.0-plugins-base \
           gstreamer1.0-plugins-good \
           libgstreamer1.0-dev \
-          libunwind-dev \
           autoconf \
           automake \
           libtool \
-          libtool-bin \
-          libffi-dev \
-          libssl-dev \
-          zip \
-          unzip \
-          pkg-config \
-          gettext
+          pkg-config
 
     - name: Install buildozer
       run: |
         python -m pip install --upgrade pip wheel setuptools
         pip install --upgrade Cython==0.29.33 virtualenv buildozer
 
-    - name: Initialize autotools
+    - name: Initialize build system
       run: |
-        autoreconf --install
+        aclocal
+        autoconf
+        automake --add-missing
         ./configure
-
-    - name: Accept Android licenses
-      run: |
-        yes | sudo ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager --licenses
-
-    - name: Set JAVA_HOME
-      run: |
-        echo "JAVA_HOME=$JAVA_HOME_17_X64" >> $GITHUB_ENV
 
     - name: Build APK
       run: |
