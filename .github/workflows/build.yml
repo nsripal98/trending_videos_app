@@ -46,6 +46,10 @@ jobs:
         python -m pip install --upgrade pip wheel setuptools
         pip install --upgrade Cython==0.29.33 virtualenv buildozer
 
+    - name: Accept Android licenses
+      run: |
+        yes | sudo ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager --licenses || true
+
     - name: Build APK
       run: |
         buildozer android debug
