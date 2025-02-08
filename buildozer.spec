@@ -5,8 +5,8 @@ package.domain = org.example
 
 source.dir = .
 source.include_exts = py,png,jpg,kv,atlas
-source.exclude_dirs = tests, bin, venv, .git
-source.exclude_patterns = LICENSE,README.md,*.spec,*.md,*.yml,*.github
+source.exclude_dirs = tests, bin, venv, .git, .buildozer
+source.exclude_patterns = LICENSE,README.md,*.spec,*.md,*.yml,*.github,setup.py
 version = 1.0
 
 requirements = python3,kivy==2.1.0,kivymd==1.1.1,pillow,requests,google-api-python-client,google-auth-httplib2,google-auth-oauthlib,beautifulsoup4,python-dotenv
