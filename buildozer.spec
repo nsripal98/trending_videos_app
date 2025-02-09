@@ -13,14 +13,13 @@ requirements = python3,kivy==2.1.0,kivymd==1.1.1,pillow,requests,google-api-pyth
 
 android.permissions = INTERNET
 
+android.archs = armeabi-v7a
 android.api = 31
 android.minapi = 21
-android.sdk = 31
 android.ndk = 25b
 android.ndk_api = 21
 android.private_storage = True
 android.accept_sdk_license = True
-android.arch = armeabi-v7a
 
 android.release_artifact = apk
 android.debug_artifact = apk
