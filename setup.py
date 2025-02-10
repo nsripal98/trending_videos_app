@@ -1,9 +1,9 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name='trendingvideos',
     version='1.0',
-    packages=['src'],
+    packages=find_packages(),
     install_requires=[
         'kivy==2.1.0',
         'kivymd==1.1.1',
@@ -17,7 +17,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'trendingvideos=src.main:main',
+            'trendingvideos=main:main',
         ],
     },
 )
