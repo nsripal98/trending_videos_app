@@ -29,16 +29,29 @@ class TrendingVideosApp(MDApp):
         # Load initial data
         self.load_trending_videos()
 
-    def load_trending_videos(self):
+    def load_trending_videos(self, region_code='US', state_code=None):
         # Get trending videos from each platform
-        youtube_videos = self.youtube_service.get_trending_videos()
-        instagram_videos = self.instagram_service.get_trending_videos()
-        facebook_videos = self.facebook_service.get_trending_videos()
+        youtube_videos = self.youtube_service.get_trending_videos(region_code=region_code)
+        instagram_videos = self.instagram_service.get_trending_videos(region_code=region_code)
+        facebook_videos = self.facebook_service.get_trending_videos(region_code=region_code)
         
-        # Update UI with videos
+        if state_code:
+            # Get state-specific trending videos
+            youtube_state = self.youtube_service.get_trending_by_state(state_code)
+            instagram_state = self.instagram_service.get_trending_by_state(state_code)
+            facebook_state = self.facebook_service.get_trending_by_state(state_code)
+            
+            # Update UI with state-specific videos
+            self.root.ids.state_video_grid.update_videos(
+                youtube_state,
+                instagram_state,
+                facebook_state
+            )
+        
+        # Update UI with country-wide videos
         self.root.ids.video_grid.update_videos(
-            youtube_videos, 
-            instagram_videos, 
+            youtube_videos,
+            instagram_videos,
             facebook_videos
         )
 

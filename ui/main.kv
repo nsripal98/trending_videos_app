@@ -7,21 +7,34 @@ MDScreen:
 
         # Top Bar
         MDTopAppBar:
-            title: "Trending by Videos"
+            title: "Trending Videos"
             right_action_items: [["refresh", lambda x: app.load_trending_videos()]]
             md_bg_color: "1a1f2b"
             specific_text_color: "ffffff"
 
         # Main Content
-        MDScrollView:
-            MDGridLayout:
-                id: video_grid
-                cols: 2
-                padding: "8dp"
-                spacing: "8dp"
-                adaptive_height: True
-
-                # Video Cards will be added here dynamically
+        MDTabs:
+            id: tabs
+            
+            Tab:
+                title: "Country Trending"
+                MDScrollView:
+                    MDGridLayout:
+                        id: video_grid
+                        cols: 2
+                        padding: "8dp"
+                        spacing: "8dp"
+                        adaptive_height: True
+            
+            Tab:
+                title: "State Trending"
+                MDScrollView:
+                    MDGridLayout:
+                        id: state_video_grid
+                        cols: 2
+                        padding: "8dp"
+                        spacing: "8dp"
+                        adaptive_height: True
 
         # Bottom Navigation
         MDBottomNavigation:
@@ -47,8 +60,3 @@ MDScreen:
                 name: 'search'
                 text: 'Search'
                 icon: 'magnify'
-                
-            MDBottomNavigationItem:
-                name: 'account'
-                text: 'Account'
-                icon: 'account'

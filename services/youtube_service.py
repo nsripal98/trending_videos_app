@@ -12,7 +12,7 @@ class YouTubeService:
     def get_trending_videos(self, region_code='US', max_results=10):
         try:
             request = self.youtube.videos().list(
-                part="snippet,statistics",
+                part="snippet,statistics,contentDetails",
                 chart="mostPopular",
                 regionCode=region_code,
                 maxResults=max_results
@@ -26,7 +26,9 @@ class YouTubeService:
                     'title': item['snippet']['title'],
                     'thumbnail': item['snippet']['thumbnails']['high']['url'],
                     'views': item['statistics']['viewCount'],
-                    'platform': 'youtube'
+                    'platform': 'youtube',
+                    'description': item['snippet']['description'],
+                    'duration': item['contentDetails']['duration']
                 }
                 videos.append(video)
             
@@ -37,5 +39,36 @@ class YouTubeService:
 
     def get_trending_by_state(self, state_code, max_results=10):
         # Note: YouTube API doesn't support state-level trending
-        # This would require additional data processing
-        return self.get_trending_videos(region_code='US', max_results=max_results)
+        # This would require additional data processing or a custom solution
+        # For now, we'll use geolocation data from video metadata
+        try:
+            videos = self.get_trending_videos(region_code='US', max_results=50)
+            # Filter videos based on state location mentions
+            state_videos = [
+                video for video in videos 
+                if state_code.lower() in video['description'].lower()
+            ]
+            return state_videos[:max_results]
+        except Exception as e:
+            print(f"Error fetching state-specific videos: {e}")
+            return []
+
+    def analyze_content(self, video_id):
+        try:
+            request = self.youtube.videos().list(
+                part="snippet,statistics,topicDetails",
+                id=video_id
+            )
+            response = request.execute()
+            
+            if response['items']:
+                video = response['items'][0]
+                return {
+                    'topics': video.get('topicDetails', {}).get('topicCategories', []),
+                    'tags': video['snippet'].get('tags', []),
+                    'category_id': video['snippet']['categoryId']
+                }
+            return None
+        except Exception as e:
+            print(f"Error analyzing video content: {e}")
+            return None
