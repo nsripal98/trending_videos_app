@@ -53,12 +53,23 @@ jobs:
         pip install --upgrade buildozer
         pip install --upgrade python-for-android
 
+    - name: Set up build directories
+      run: |
+        sudo mkdir -p /home/runner/.buildozer
+        sudo chown -R $USER:$USER /home/runner/.buildozer
+        sudo mkdir -p $GITHUB_WORKSPACE/.buildozer
+        sudo chown -R $USER:$USER $GITHUB_WORKSPACE/.buildozer
+
     - name: Initialize python-for-android
       run: |
-        mkdir -p $HOME/.buildozer/android/platform
-        git clone --depth=1 https://github.com/kivy/python-for-android.git $HOME/.buildozer/android/platform/python-for-android
-        cd $HOME/.buildozer/android/platform/python-for-android
+        mkdir -p /home/runner/.buildozer/android/platform
+        git clone --depth=1 https://github.com/kivy/python-for-android.git /home/runner/.buildozer/android/platform/python-for-android
+        cd /home/runner/.buildozer/android/platform/python-for-android
         python setup.py install
+        
+        # Create symlink to ensure buildozer finds p4a
+        mkdir -p $GITHUB_WORKSPACE/.buildozer/android/platform
+        ln -s /home/runner/.buildozer/android/platform/python-for-android $GITHUB_WORKSPACE/.buildozer/android/platform/python-for-android
 
     - name: Accept Android licenses
       run: |
