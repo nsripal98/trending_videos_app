@@ -46,30 +46,28 @@ jobs:
           automake \
           pkg-config
 
-    - name: Install buildozer and p4a
+    - name: Install buildozer and dependencies
       run: |
         python -m pip install --upgrade pip wheel setuptools
-        pip install --upgrade Cython==0.29.33 virtualenv buildozer
-        pip install python-for-android
+        pip install --upgrade Cython==0.29.33 virtualenv
+        pip install --upgrade buildozer
+        pip install --upgrade python-for-android
 
-    - name: Setup python-for-android
+    - name: Initialize python-for-android
       run: |
         mkdir -p $HOME/.buildozer/android/platform
-        git clone https://github.com/kivy/python-for-android.git $HOME/.buildozer/android/platform/python-for-android
+        git clone --depth=1 https://github.com/kivy/python-for-android.git $HOME/.buildozer/android/platform/python-for-android
         cd $HOME/.buildozer/android/platform/python-for-android
         python setup.py install
-
-    - name: Clean buildozer
-      run: |
-        rm -rf .buildozer
-        rm -rf bin
 
     - name: Accept Android licenses
       run: |
         yes | sudo ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager --licenses || true
 
-    - name: Build APK
+    - name: Clean and build APK
       run: |
+        rm -rf .buildozer
+        rm -rf bin
         buildozer android clean
         buildozer -v android debug
 

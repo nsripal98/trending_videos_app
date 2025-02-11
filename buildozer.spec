@@ -6,21 +6,20 @@ package.domain = org.example
 source.dir = .
 source.include_exts = py,png,jpg,kv,atlas
 source.exclude_dirs = tests, bin, venv, .git, .buildozer
-source.exclude_patterns = LICENSE,README.md,*.spec,*.md,*.yml,*.github,setup.py,configure.ac,Makefile.am
+source.exclude_patterns = LICENSE,README.md,*.spec,*.md,*.yml,*.github
 version = 1.0
 
 requirements = python3,kivy==2.1.0,kivymd==1.1.1,pillow,requests,google-api-python-client,google-auth-httplib2,google-auth-oauthlib,beautifulsoup4,python-dotenv
 
 android.permissions = INTERNET
 
+android.archs = armeabi-v7a
 android.api = 31
 android.minapi = 21
-android.sdk = 31
 android.ndk = 25b
 android.ndk_api = 21
 android.private_storage = True
 android.accept_sdk_license = True
-android.arch = armeabi-v7a
 
 android.release_artifact = apk
 android.debug_artifact = apk
