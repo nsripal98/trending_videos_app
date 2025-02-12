@@ -60,7 +60,13 @@ jobs:
         mkdir -p $GITHUB_WORKSPACE/.buildozer/android/platform
         git clone --depth=1 https://github.com/kivy/python-for-android.git $GITHUB_WORKSPACE/.buildozer/android/platform/python-for-android
         cd $GITHUB_WORKSPACE/.buildozer/android/platform/python-for-android
-        # Use the existing configure script directly
+        # Initialize autotools
+        libtoolize --force
+        aclocal
+        autoheader
+        automake --force-missing --add-missing
+        autoconf
+        # Now run configure
         ./configure
         python setup.py install
         cd $GITHUB_WORKSPACE
