@@ -60,13 +60,21 @@ jobs:
         mkdir -p $GITHUB_WORKSPACE/.buildozer/android/platform
         git clone --depth=1 https://github.com/kivy/python-for-android.git $GITHUB_WORKSPACE/.buildozer/android/platform/python-for-android
         cd $GITHUB_WORKSPACE/.buildozer/android/platform/python-for-android
+        # Create configure.ac
+        echo "AC_INIT([python-for-android], [1.0], [kivy-dev@googlegroups.com])
+        AM_INIT_AUTOMAKE([-Wall -Werror foreign])
+        LT_PREREQ([2.2])
+        LT_INIT([win32-dll])
+        LT_LANG([C])
+        AC_PROG_CC
+        AC_CONFIG_FILES([Makefile])
+        AC_OUTPUT" > configure.ac
+        # Create Makefile.am
+        echo "AUTOMAKE_OPTIONS = foreign
+        bin_PROGRAMS = p4a
+        p4a_SOURCES = setup.py" > Makefile.am
         # Initialize autotools
-        libtoolize --force
-        aclocal
-        autoheader
-        automake --force-missing --add-missing
-        autoconf
-        # Now run configure
+        autoreconf -vif
         ./configure
         python setup.py install
         cd $GITHUB_WORKSPACE
