@@ -44,7 +44,9 @@ jobs:
           libtool-bin \
           autoconf \
           automake \
-          pkg-config
+          pkg-config \
+          gettext \
+          m4
 
     - name: Install buildozer
       run: |
@@ -52,17 +54,22 @@ jobs:
         pip install --upgrade Cython==0.29.33 virtualenv
         pip install --upgrade buildozer
 
-    - name: Clone python-for-android
-      run: |
-        git clone --depth=1 https://github.com/kivy/python-for-android.git
-        cd python-for-android
-        python setup.py install
-
     - name: Set up build environment
       run: |
         mkdir -p $GITHUB_WORKSPACE/.buildozer
         mkdir -p $GITHUB_WORKSPACE/.buildozer/android/platform
-        cp -r python-for-android $GITHUB_WORKSPACE/.buildozer/android/platform/
+        git clone --depth=1 https://github.com/kivy/python-for-android.git $GITHUB_WORKSPACE/.buildozer/android/platform/python-for-android
+        cd $GITHUB_WORKSPACE/.buildozer/android/platform/python-for-android
+        # Initialize libtool and autoconf
+        libtoolize --force
+        aclocal
+        autoheader
+        automake --force-missing --add-missing
+        autoconf
+        # Run configure to generate proper files
+        ./configure
+        python setup.py install
+        cd $GITHUB_WORKSPACE
         chmod -R 755 $GITHUB_WORKSPACE/.buildozer
 
     - name: Accept Android licenses
