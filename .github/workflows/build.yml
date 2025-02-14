@@ -113,10 +113,11 @@ jobs:
         bin_PROGRAMS = p4a
         p4a_SOURCES = setup.py' > Makefile.am
         
-        # Initialize autotools
+        # Initialize autotools with proper sequence
+        libtoolize --force --copy
         aclocal -I m4
         autoheader
-        automake --add-missing --copy
+        automake --add-missing --copy --force-missing
         autoconf
         ./configure
         python setup.py install
