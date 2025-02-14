@@ -61,65 +61,25 @@ jobs:
         git clone --depth=1 https://github.com/kivy/python-for-android.git $GITHUB_WORKSPACE/.buildozer/android/platform/python-for-android
         cd $GITHUB_WORKSPACE/.buildozer/android/platform/python-for-android
         
-        # Create m4 directory and macros file
-        mkdir -p m4
-        echo 'AC_DEFUN([LT_SYS_SYMBOL_USCORE], [
-          AC_CACHE_CHECK([for _ prefix in compiled symbols],
-            [lt_cv_sys_symbol_underscore],
-            [lt_cv_sys_symbol_underscore=no
-            cat > conftest.$ac_ext <<_LT_EOF
-            void nm_test_func(){}
-            int main(){nm_test_func;return 0;}
-            _LT_EOF
-            if AC_TRY_EVAL(ac_compile); then
-              if AC_TRY_EVAL(NM conftest.$ac_objext | grep _nm_test_func > /dev/null); then
-                lt_cv_sys_symbol_underscore=yes
-              fi
-            fi
-            rm -rf conftest*
-            ])
-          if test x"$lt_cv_sys_symbol_underscore" = xyes; then
-            AC_DEFINE(NEED_USCORE, 1,
-              [Define if compiled symbols have a leading underscore])
-          fi
-        ])' > m4/libtool.m4
-        
-        # Create configure.ac with proper macros
-        echo 'AC_PREREQ([2.69])
-        AC_INIT([python-for-android], [1.0], [kivy-dev@googlegroups.com])
-        AC_CONFIG_MACRO_DIRS([m4])
-        AM_INIT_AUTOMAKE([-Wall -Werror foreign])
+        # Create basic configure.ac
+        echo 'AC_INIT([python-for-android], [1.0], [kivy-dev@googlegroups.com])
+        AM_INIT_AUTOMAKE([foreign])
         AC_CONFIG_SRCDIR([setup.py])
-        AC_CONFIG_HEADERS([config.h])
-        
-        # Checks for programs
         AC_PROG_CC
-        AC_PROG_INSTALL
-        AC_PROG_LN_S
-        AC_PROG_MAKE_SET
-        
-        # Libtool initialization
-        LT_PREREQ([2.4])
-        LT_INIT([win32-dll])
-        LT_LANG([C])
-        LT_SYS_SYMBOL_USCORE
-        
         AC_CONFIG_FILES([Makefile])
         AC_OUTPUT' > configure.ac
         
-        # Create Makefile.am
-        echo 'ACLOCAL_AMFLAGS = -I m4
-        AUTOMAKE_OPTIONS = foreign
+        # Create simple Makefile.am
+        echo 'AUTOMAKE_OPTIONS = foreign
         bin_PROGRAMS = p4a
         p4a_SOURCES = setup.py' > Makefile.am
         
-        # Initialize autotools with proper sequence
-        libtoolize --force --copy
-        aclocal -I m4
-        autoheader
-        automake --add-missing --copy --force-missing
+        # Run autotools in the correct order
+        aclocal
+        automake --add-missing --copy
         autoconf
         ./configure
+        make
         python setup.py install
         cd $GITHUB_WORKSPACE
         chmod -R 755 $GITHUB_WORKSPACE/.buildozer
