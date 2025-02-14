@@ -61,18 +61,20 @@ jobs:
         git clone --depth=1 https://github.com/kivy/python-for-android.git $GITHUB_WORKSPACE/.buildozer/android/platform/python-for-android
         cd $GITHUB_WORKSPACE/.buildozer/android/platform/python-for-android
         
+        # Create a dummy source file
+        echo 'int main() { return 0; }' > p4a.c
+        
         # Create basic configure.ac
         echo 'AC_INIT([python-for-android], [1.0], [kivy-dev@googlegroups.com])
         AM_INIT_AUTOMAKE([foreign])
-        AC_CONFIG_SRCDIR([setup.py])
         AC_PROG_CC
         AC_CONFIG_FILES([Makefile])
         AC_OUTPUT' > configure.ac
         
-        # Create simple Makefile.am
+        # Create simple Makefile.am with actual source file
         echo 'AUTOMAKE_OPTIONS = foreign
         bin_PROGRAMS = p4a
-        p4a_SOURCES = setup.py' > Makefile.am
+        p4a_SOURCES = p4a.c' > Makefile.am
         
         # Run autotools in the correct order
         aclocal
