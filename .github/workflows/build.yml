@@ -68,24 +68,20 @@ jobs:
         mkdir -p m4
         
         # Create configure.ac with proper libtool initialization
-        cat > configure.ac << 'EOL'
-AC_PREREQ([2.69])
-AC_INIT([python-for-android], [1.0], [kivy-dev@googlegroups.com])
-AC_CONFIG_MACRO_DIRS([m4])
-AM_INIT_AUTOMAKE([foreign -Wall -Werror])
-LT_PREREQ([2.4])
-LT_INIT
-AC_PROG_CC
-AC_CONFIG_FILES([Makefile])
-AC_OUTPUT
-EOL
+        echo 'AC_PREREQ([2.69])
+        AC_INIT([python-for-android], [1.0], [kivy-dev@googlegroups.com])
+        AC_CONFIG_MACRO_DIRS([m4])
+        AM_INIT_AUTOMAKE([foreign -Wall -Werror])
+        LT_PREREQ([2.4])
+        LT_INIT
+        AC_PROG_CC
+        AC_CONFIG_FILES([Makefile])
+        AC_OUTPUT' > configure.ac
         
         # Create Makefile.am
-        cat > Makefile.am << 'EOL'
-ACLOCAL_AMFLAGS = -I m4
-bin_PROGRAMS = p4a
-p4a_SOURCES = p4a.c
-EOL
+        echo 'ACLOCAL_AMFLAGS = -I m4
+        bin_PROGRAMS = p4a
+        p4a_SOURCES = p4a.c' > Makefile.am
         
         # Initialize build system
         libtoolize --force --copy
