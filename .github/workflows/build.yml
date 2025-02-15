@@ -61,25 +61,40 @@ jobs:
         git clone --depth=1 https://github.com/kivy/python-for-android.git $GITHUB_WORKSPACE/.buildozer/android/platform/python-for-android
         cd $GITHUB_WORKSPACE/.buildozer/android/platform/python-for-android
         
-        # Create a dummy source file
+        # Create source files and build configuration
         echo 'int main() { return 0; }' > p4a.c
         
-        # Create basic configure.ac
-        echo 'AC_INIT([python-for-android], [1.0], [kivy-dev@googlegroups.com])
-        AM_INIT_AUTOMAKE([foreign])
-        AC_PROG_CC
-        AC_CONFIG_FILES([Makefile])
-        AC_OUTPUT' > configure.ac
+        # Create m4 directory for macros
+        mkdir -p m4
         
-        # Create simple Makefile.am with actual source file
-        echo 'AUTOMAKE_OPTIONS = foreign
-        bin_PROGRAMS = p4a
-        p4a_SOURCES = p4a.c' > Makefile.am
+        # Create configure.ac with proper libtool initialization
+        cat > configure.ac << 'EOL'
+AC_PREREQ([2.69])
+AC_INIT([python-for-android], [1.0], [kivy-dev@googlegroups.com])
+AC_CONFIG_MACRO_DIRS([m4])
+AM_INIT_AUTOMAKE([foreign -Wall -Werror])
+LT_PREREQ([2.4])
+LT_INIT
+AC_PROG_CC
+AC_CONFIG_FILES([Makefile])
+AC_OUTPUT
+EOL
         
-        # Run autotools in the correct order
-        aclocal
+        # Create Makefile.am
+        cat > Makefile.am << 'EOL'
+ACLOCAL_AMFLAGS = -I m4
+bin_PROGRAMS = p4a
+p4a_SOURCES = p4a.c
+EOL
+        
+        # Initialize build system
+        libtoolize --force --copy
+        aclocal -I m4
+        autoheader
         automake --add-missing --copy
         autoconf
+        
+        # Configure and build
         ./configure
         make
         python setup.py install
