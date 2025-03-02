@@ -1,31 +1,32 @@
 [app]
 
 # (str) Title of your application
-title = Trending Videos App
+title = Trending Videos
 
 # (str) Package name
 package.name = trendingvideos
 
 # (str) Package domain (needed for android/ios packaging)
-package.domain = com.trendingvideos
+package.domain = org.trendingvideos
 
 # (str) Source code where the main.py live
 source.dir = .
 
 # (list) Source files to include (let empty to include all the files)
-source.include_exts = py,png,jpg,kv,atlas,json
+source.include_exts = py,png,jpg,kv,atlas
 
 # (list) List of inclusions using pattern matching
-source.include_patterns = assets/*,images/*.png
+#source.include_patterns = assets/*,images/*.png
 
 # (list) Source files to exclude (let empty to not exclude anything)
-source.exclude_exts = spec,md
+#source.exclude_exts = spec
 
 # (list) List of directory to exclude (let empty to not exclude anything)
-source.exclude_dirs = tests, bin, venv, node_modules
+source.exclude_dirs = tests, bin, .git, __pycache__, .expo, node_modules, app, components, data, types, utils, api
 
 # (list) List of exclusions using pattern matching
-source.exclude_patterns = license,images/*/*.jpg
+# Do not prefix with './'
+#source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
 version = 0.1
@@ -36,20 +37,19 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy==2.2.1,kivymd==1.1.1,pillow,requests,urllib3,certifi,idna,chardet
+requirements = python3,kivy==2.1.0,pillow,requests,urllib3,certifi,chardet,idna
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
 # requirements.source.kivy = ../../kivy
 
 # (str) Presplash of the application
-presplash.filename = %(source.dir)s/assets/images/splash.png
+#presplash.filename = %(source.dir)s/data/presplash.png
 
 # (str) Icon of the application
-icon.filename = %(source.dir)s/assets/images/icon.png
+#icon.filename = %(source.dir)s/data/icon.png
 
-# (list) Supported orientations
-# Valid options are: landscape, portrait, portrait-reverse or landscape-reverse
+# (str) Supported orientation (one of landscape, sensorLandscape, portrait or all)
 orientation = portrait
 
 # (list) List of service to declare
@@ -66,7 +66,7 @@ orientation = portrait
 osx.python_version = 3
 
 # Kivy version to use
-osx.kivy_version = 2.2.1
+osx.kivy_version = 2.1.0
 
 #
 # Android specific
@@ -85,7 +85,7 @@ android.presplash_color = #FFFFFF
 # Lottie files can be created using various tools, like Adobe After Effect or Synfig.
 #android.presplash_lottie = "path/to/lottie/file.json"
 
-# (str) Adaptive icon (used if Android API level is 26+ at runtime)
+# (str) Adaptive icon of the application (used if Android API level is 26+ at runtime)
 #android.adaptive_icon_background = #FFFFFF
 #android.adaptive_icon_foreground = %(source.dir)s/data/icon_fg.png
 
@@ -96,7 +96,7 @@ android.permissions = INTERNET, ACCESS_NETWORK_STATE
 #android.features = android.hardware.usb.host
 
 # (int) Target Android API, should be as high as possible.
-android.api = 33
+android.api = 31
 
 # (int) Minimum API your APK / AAB will support.
 android.minapi = 21
@@ -111,7 +111,7 @@ android.ndk = 23b
 android.ndk_api = 21
 
 # (bool) Use --private data storage (True) or --dir public storage (False)
-android.private_storage = True
+#android.private_storage = True
 
 # (str) Android NDK directory (if empty, it will be automatically downloaded.)
 #android.ndk_path =
@@ -125,13 +125,13 @@ android.private_storage = True
 # (bool) If True, then skip trying to update the Android sdk
 # This can be useful to avoid excess Internet downloads or save time
 # when an update is due and you just want to test/build your package
-android.skip_update = False
+# android.skip_update = False
 
 # (bool) If True, then automatically accept SDK license
 # agreements. This is intended for automation only. If set to False,
 # the default, you will be shown the license when first running
 # buildozer.
-android.accept_sdk_license = True
+# android.accept_sdk_license = False
 
 # (str) Android entry point, default is ok for Kivy-based app
 #android.entrypoint = org.kivy.android.PythonActivity
@@ -183,25 +183,13 @@ android.accept_sdk_license = True
 # 2) android.add_assets = source_asset_path:destination_asset_relative_path
 #android.add_assets =
 
-# (list) Put these files or directories in the apk res directory.
-# The option may be used in three ways, the value may contain one or zero ':'
-# Some examples:
-# 1) A file to add to resources, legal resource names contain ['a-z','0-9','_']
-# android.add_resources = my_icons/all-inclusive.png:drawable/all_inclusive.png
-# 2) A directory, here  'legal_icons' must contain resources of one kind
-# android.add_resources = legal_icons:drawable
-# 3) A directory, here 'legal_resources' must contain one or more directories, 
-# each of a resource kind:  drawable, xml, etc...
-# android.add_resources = legal_resources
-#android.add_resources =
-
 # (list) Gradle dependencies to add
 #android.gradle_dependencies =
 
 # (bool) Enable AndroidX support. Enable when 'android.gradle_dependencies'
 # contains an 'androidx' package, or any package from Kotlin source.
 # android.enable_androidx requires android.use_kotlin = True
-#android.enable_androidx = True
+#android.enable_androidx = False
 
 # (list) add java compile options
 # this can for example be necessary when importing certain java libraries using the 'android.gradle_dependencies' option
@@ -296,10 +284,10 @@ android.allow_backup = True
 # android.no-byte-compile-python = False
 
 # (str) The format used to package the app for release mode (aab or apk or aar).
-android.release_artifact = apk
+# android.release_artifact = aab
 
 # (str) The format used to package the app for debug mode (apk or aar).
-android.debug_artifact = apk
+# android.debug_artifact = apk
 
 #
 # Python for android (p4a) specific
