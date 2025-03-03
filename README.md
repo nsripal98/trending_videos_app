@@ -1,68 +1,59 @@
 # Trending Videos App
 
-A cross-platform mobile application that aggregates trending videos from various social media platforms like YouTube, Instagram, Facebook, Twitter, and TikTok.
+A cross-platform mobile application that aggregates trending videos from various social media platforms.
 
 ## Features
 
-1. **Unified Platform**: View trending videos from multiple social media platforms in one place
-2. **Geographic Filtering**: 
-   - Country-wide top 10 most viewed videos from each platform
-   - State/region-wise top 10 most viewed videos
-3. **Content Analysis**: 
-   - Top 3 content videos by analyzing video content
-   - Country-wide and state/region-wise analysis
+1. **Country-wide Trending Videos**
+   - Shows top 10 most viewed videos from each platform at the country level
+   - Currently supports USA, India, and UK
+   - Videos are sorted by view count and can be filtered by platform
 
-## Technology Stack
+2. **State/Region-wise Trending**
+   - Displays top 10 videos for each state/region within countries
+   - Implemented for all US states, Indian states, and UK regions
+   - Accessible through the Regions tab
 
-- **Kivy**: Python framework for cross-platform mobile applications
-- **Buildozer**: Packaging tool for creating Android APKs
-- **GitCloud**: For CI/CD and automated builds
+3. **Content Analysis**
+   - Shows top 3 videos based on content analysis for each country and region
+   - Includes engagement metrics, audience retention, key topics, and sentiment analysis
+   - Available through a tab interface on country and region screens
 
-## Setup Development Environment
+## Supported Platforms
 
-1. Install Python 3.8+ and pip
-2. Install required packages:
-   ```
-   pip install kivy pillow requests
-   ```
-3. For development, run:
-   ```
-   python main.py
-   ```
+- YouTube
+- Instagram
+- Facebook
+- Twitter
+- TikTok
 
 ## Building the APK
 
-### Using Buildozer Locally
+This app uses Buildozer to create an Android APK. To build the APK:
 
-1. Install buildozer:
+1. Install Buildozer and its dependencies:
    ```
    pip install buildozer
    ```
-2. Initialize buildozer (already done in this repo):
+
+2. For Ubuntu/Debian, install required packages:
    ```
-   buildozer init
+   sudo apt-get install -y python3-pip build-essential git python3 python3-dev ffmpeg libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libportmidi-dev libswscale-dev libavformat-dev libavcodec-dev zlib1g-dev
    ```
+
 3. Build the APK:
    ```
    buildozer android debug
    ```
 
-### Using GitCloud
+4. The APK will be generated in the `bin/` directory.
 
-1. Commit your changes:
-   ```
-   git add .
-   git commit -m "Your commit message"
-   git push origin main
-   ```
-2. GitCloud will automatically build the APK based on the buildozer.spec file
+## Requirements
 
-## Project Structure
-
-- `main.py`: Main application entry point
-- `buildozer.spec`: Configuration for building the Android APK
-- `.gitignore`: Git ignore file
+- Python 3.7+
+- Kivy 2.2.1
+- KivyMD 1.1.1
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+MIT
