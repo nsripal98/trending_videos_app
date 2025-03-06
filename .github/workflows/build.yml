@@ -47,7 +47,6 @@ jobs:
 
       - name: Build with Buildozer
         run: |
-          # buildozer will download Android SDK and NDK
           buildozer android debug
 
       - name: Upload APK
