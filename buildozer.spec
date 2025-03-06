@@ -58,7 +58,7 @@ android.minapi = 21
 android.sdk = 33
 
 # (str) Android NDK version to use
-android.ndk = 25b
+android.ndk = 25.2.9519653
 
 # (int) Android NDK API to use. This is the minimum API your app will support, it should usually match android.minapi.
 android.ndk_api = 21
@@ -84,6 +84,15 @@ android.release_artifact = apk
 # (str) The format used to package the app for debug mode (apk or aar).
 android.debug_artifact = apk
 
+# (list) Android additional libraries to copy into libs/armeabi-v7a
+android.add_libs_armeabi_v7a = libs/android/*.so
+
+# (list) Android additional libraries to copy into libs/arm64-v8a
+android.add_libs_arm64_v8a = libs/android/*.so
+
+# (bool) Copy library instead of making a libpymodules.so
+android.copy_libs = 1
+
 [buildozer]
 
 # (int) Log level (0 = error only, 1 = info, 2 = debug (with command output))
@@ -97,3 +106,15 @@ build_dir = ./.buildozer
 
 # (str) Path to build output (i.e. .apk, .aab, .ipa) storage
 bin_dir = ./bin
+
+# (str) Android SDK directory (if empty, it will be automatically downloaded)
+android.sdk_path = ~/.buildozer/android/platform/android-sdk
+
+# (str) Android NDK directory (if empty, it will be automatically downloaded)
+android.ndk_path = ~/.buildozer/android/platform/android-ndk-25.2.9519653
+
+# (str) Android SDK build tools version (if empty, it will be automatically downloaded)
+android.build_tools_version = 33.0.0
+
+# (str) Android NDK version to use
+android.ndk_version = 25.2.9519653
