@@ -26,15 +26,14 @@ jobs:
           path: |
             .buildozer
             ~/.buildozer
-          key: ${{ runner.os }}-buildozer-${{ hashFiles('buildozer.spec') }}
+          key: ${{ runner.os }}-buildozer-${{ hashFiles('requirements.txt', 'buildozer.spec') }}
           restore-keys: |
             ${{ runner.os }}-buildozer-
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install --upgrade Cython==0.29.33
-          pip install --upgrade buildozer
+          pip install -r requirements.txt
           sudo apt-get update
           sudo apt-get install -y \
             python3-pip \
