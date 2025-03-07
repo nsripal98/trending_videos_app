@@ -57,9 +57,6 @@ android.minapi = 21
 # (int) Android SDK version to use
 android.sdk = 33
 
-# (str) Android NDK version to use
-android.ndk = 25.2.9519653
-
 # (int) Android NDK API to use. This is the minimum API your app will support, it should usually match android.minapi.
 android.ndk_api = 21
 
@@ -67,7 +64,7 @@ android.ndk_api = 21
 android.private_storage = True
 
 # (bool) If True, then skip trying to update the Android sdk
-android.skip_update = False
+android.skip_update = True
 
 # (bool) If True, then automatically accept SDK license
 android.accept_sdk_license = True
