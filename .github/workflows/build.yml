@@ -20,16 +20,6 @@ jobs:
           python-version: '3.9'
           cache: 'pip'
 
-      - name: Cache Buildozer dependencies
-        uses: actions/cache@v4
-        with:
-          path: |
-            .buildozer
-            ~/.buildozer
-          key: ${{ runner.os }}-buildozer-${{ hashFiles('requirements.txt', 'buildozer.spec') }}
-          restore-keys: |
-            ${{ runner.os }}-buildozer-
-
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -60,16 +50,13 @@ jobs:
             libtool \
             pkg-config
 
-      - name: Download Android SDK and NDK
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Set up NDK
         run: |
-          mkdir -p ~/.buildozer/android/platform
-          wget -q https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
-          unzip -q commandlinetools-linux-9477386_latest.zip -d ~/.buildozer/android/platform/
-          mv ~/.buildozer/android/platform/cmdline-tools ~/.buildozer/android/platform/latest
-          mkdir -p ~/.buildozer/android/platform/cmdline-tools
-          mv ~/.buildozer/android/platform/latest ~/.buildozer/android/platform/cmdline-tools/
-          yes | ~/.buildozer/android/platform/cmdline-tools/latest/bin/sdkmanager --licenses
-          ~/.buildozer/android/platform/cmdline-tools/latest/bin/sdkmanager "platforms;android-33" "build-tools;33.0.0" "ndk;25.2.9519653"
+          echo "y" | sudo ${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager --install "ndk;25.2.9519653"
+          echo "ANDROID_NDK_HOME=${ANDROID_SDK_ROOT}/ndk/25.2.9519653" >> $GITHUB_ENV
 
       - name: Build with Buildozer
         run: |

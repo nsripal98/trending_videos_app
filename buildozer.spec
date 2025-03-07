@@ -106,15 +106,3 @@ build_dir = ./.buildozer
 
 # (str) Path to build output (i.e. .apk, .aab, .ipa) storage
 bin_dir = ./bin
-
-# (str) Android SDK directory (if empty, it will be automatically downloaded)
-android.sdk_path = ~/.buildozer/android/platform/android-sdk
-
-# (str) Android NDK directory (if empty, it will be automatically downloaded)
-android.ndk_path = ~/.buildozer/android/platform/android-ndk-25.2.9519653
-
-# (str) Android SDK build tools version (if empty, it will be automatically downloaded)
-android.build_tools_version = 33.0.0
-
-# (str) Android NDK version to use
-android.ndk_version = 25.2.9519653
