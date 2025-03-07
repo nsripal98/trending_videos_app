@@ -83,7 +83,6 @@ jobs:
       - name: Install Buildozer and Dependencies
         run: |
           pip install buildozer cython python-for-android
-          buildozer init  # Ensure buildozer.spec is present
 
       - name: Build with Buildozer
         run: |
