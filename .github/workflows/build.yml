@@ -58,9 +58,10 @@ jobs:
             autoconf \
             automake \
             libtool \
-            pkg-config
+            pkg-config \
+            aidl
 
-      - name: Download Android SDK and NDK
+      - name: Set up Android SDK and NDK
         run: |
           mkdir -p ~/.buildozer/android/platform
           wget -q https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
@@ -69,9 +70,10 @@ jobs:
           mkdir -p ~/.buildozer/android/platform/cmdline-tools
           mv ~/.buildozer/android/platform/latest ~/.buildozer/android/platform/cmdline-tools/
           yes | ~/.buildozer/android/platform/cmdline-tools/latest/bin/sdkmanager --licenses
-          ~/.buildozer/android/platform/cmdline-tools/latest/bin/sdkmanager "platforms;android-33" "build-tools;33.0.0" "ndk;25.2.9519653"
-          echo "ANDROID_SDK_ROOT=~/.buildozer/android/platform" >> $GITHUB_ENV
-          echo "ANDROID_NDK_HOME=~/.buildozer/android/platform/android-sdk/ndk/25.2.9519653" >> $GITHUB_ENV
+          ~/.buildozer/android/platform/cmdline-tools/latest/bin/sdkmanager --install "platforms;android-33" "build-tools;33.0.0" "ndk;25.2.9519653"
+          echo "ANDROID_SDK_ROOT=~/.buildozer/android/platform/android-sdk" >> $GITHUB_ENV
+          echo "ANDROID_NDK_HOME=~/.buildozer/android/platform/android-ndk-r25b" >> $GITHUB_ENV
+          echo "PATH=$PATH:~/.buildozer/android/platform/android-sdk/build-tools/33.0.0" >> $GITHUB_ENV
 
       - name: Build with Buildozer
         run: |
