@@ -13,6 +13,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -33,6 +35,9 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
+          sudo apt update && sudo apt upgrade -y
+          sudo apt install -y ant unzip wget tar libffi-dev libssl-dev python3-pip
+          pip install --upgrade pip setuptools cython virtualenv
           pip install -r requirements.txt
           sudo apt-get update
           sudo apt-get install -y \
@@ -74,9 +79,21 @@ jobs:
           echo "ANDROID_SDK_ROOT=~/.buildozer/android/platform/android-sdk" >> $GITHUB_ENV
           echo "ANDROID_NDK_HOME=~/.buildozer/android/platform/android-ndk-r25b" >> $GITHUB_ENV
           echo "PATH=$PATH:~/.buildozer/android/platform/android-sdk/build-tools/33.0.0" >> $GITHUB_ENV
+      
+      - name: Install Buildozer and Dependencies
+        run: |
+          pip install buildozer cython python-for-android
+          buildozer init  # Ensure buildozer.spec is present
 
       - name: Build with Buildozer
         run: |
+          export ANDROID_HOME=$HOME/android-sdk
+          export ANDROID_NDK_HOME=$HOME/android-sdk/ndk/25.2.9519653
+          export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$PATH
+          export PATH=$ANDROID_HOME/platform-tools:$PATH
+          export PATH=$ANDROID_NDK_HOME:$PATH
+
+          buildozer android clean
           buildozer android debug
 
       - name: Upload APK
