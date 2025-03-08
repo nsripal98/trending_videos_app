@@ -56,26 +56,18 @@ jobs:
       - name: Set up Android SDK and NDK
         run: |
           mkdir -p ~/.buildozer/android/platform/
-          export ANDROID_HOME=~/.buildozer/android/platform/android-sdk
-          export ANDROID_NDK_HOME=~/.buildozer/android/platform/android-ndk-r25b
-          export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools
-          
-          # Download and setup Android SDK
           wget -q https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
           unzip -q commandlinetools-linux-9477386_latest.zip -d cmdline-tools
-          mkdir -p $ANDROID_HOME/cmdline-tools
-          mv cmdline-tools/cmdline-tools $ANDROID_HOME/cmdline-tools/latest
+          mkdir -p ~/.buildozer/android/platform/android-sdk/cmdline-tools
+          mv cmdline-tools/cmdline-tools ~/.buildozer/android/platform/android-sdk/cmdline-tools/latest
           
-          # Accept licenses and install required packages
-          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
-          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install \
-            "platforms;android-33" \
-            "build-tools;33.0.0" \
-            "platform-tools" \
-            "ndk;25.2.9519653"
+          export ANDROID_HOME=~/.buildozer/android/platform/android-sdk
+          export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools
           
-          # Create symlink for NDK
-          ln -s $ANDROID_HOME/ndk/25.2.9519653 $ANDROID_NDK_HOME
+          yes | sdkmanager --licenses
+          sdkmanager "platform-tools" "platforms;android-33" "build-tools;33.0.0" "ndk;25.2.9519653"
+          
+          ln -s $ANDROID_HOME/ndk/25.2.9519653 ~/.buildozer/android/platform/android-ndk-r25b
 
       - name: Build with Buildozer
         run: |

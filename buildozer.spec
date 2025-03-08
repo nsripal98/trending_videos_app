@@ -60,6 +60,9 @@ android.ndk = 25.2.9519653
 # (str) Android NDK directory (if empty, it will be automatically downloaded)
 android.ndk_path = ~/.buildozer/android/platform/android-ndk-r25b
 
+# (str) Android SDK directory (if empty, it will be automatically downloaded)
+android.sdk_path = ~/.buildozer/android/platform/android-sdk
+
 # (str) Android SDK build tools version
 android.build_tools_version = 33.0.0
 
@@ -70,7 +73,7 @@ android.ndk_api = 21
 android.private_storage = True
 
 # (bool) If True, then skip trying to update the Android sdk
-android.skip_update = True
+android.skip_update = False
 
 # (bool) If True, then automatically accept SDK license
 android.accept_sdk_license = True
