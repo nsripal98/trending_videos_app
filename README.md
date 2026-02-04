@@ -2,7 +2,7 @@
 
 A cross-platform mobile application that aggregates trending videos from various social media platforms.
 
-## Features are below
+## Features are below.
 
 1. **Country-wide Trending Videos**
    - Shows top 10 most viewed videos from each platform at the country level
