@@ -1,59 +1,199 @@
-# Trending Videos App
+# 📱 TrendVault — Trending Videos Aggregator
 
-A cross-platform mobile application that aggregates trending videos from various social media platforms.
+> Discover what's trending across Instagram, X (Twitter), Facebook & YouTube — filtered by your location, from city level to nationwide.
 
-## Features are below.
+![Flutter](https://img.shields.io/badge/Flutter-3.19-blue?logo=flutter)
+![Dart](https://img.shields.io/badge/Dart-3.0-blue?logo=dart)
+![Android](https://img.shields.io/badge/Android-5.0%2B-green?logo=android)
+![CI/CD](https://img.shields.io/github/actions/workflow/status/YOUR_USERNAME/trendvault/build.yml?label=CI%2FCD)
 
-1. **Country-wide Trending Videos**
-   - Shows top 10 most viewed videos from each platform at the country level
-   - Currently supports USA, India, and UK
-   - Videos are sorted by view count and can be filtered by platform
+---
 
-2. **State/Region-wise Trending**
-   - Displays top 10 videos for each state/region within countries
-   - Implemented for all US states, Indian states, and UK regions
-   - Accessible through the Regions tab
+## ✨ Features
 
-3. **Content Analysis**
-   - Shows top 3 videos based on content analysis for each country and region
-   - Includes engagement metrics, audience retention, key topics, and sentiment analysis
-   - Available through a tab interface on country and region screens
+| Feature | Description |
+|---|---|
+| 🔥 **Multi-Platform Trending** | Pulls trending videos from Instagram, X, Facebook, YouTube, TikTok |
+| 📍 **Location-Based Filtering** | Filter by Country → State → District → City |
+| 🏙️ **City-Level Trends** | See what's trending specifically in Hyderabad, Mumbai, Delhi, etc. |
+| #️⃣ **Trending Hashtags** | Live hashtag tracking with growth rate (e.g. `#HyderabadElections +342%`) |
+| 💡 **AI Content Insights** | For each trending video, get: summary, key topics, 5 content ideas for creators |
+| 📊 **Creator Analytics** | Platform distribution, category breakdown, engagement estimates |
+| 🔍 **Search & Filter** | Search by title, hashtag, creator; filter by platform & category |
+| 📋 **One-Tap Copy** | Copy hashtags or all suggested hashtags to clipboard instantly |
+| 🔗 **Open Original** | Opens the video directly on the source platform |
 
-## Supported Platforms
+---
 
-- YouTube
-- Instagram
-- Facebook
-- Twitter
-- TikTok
+## 📸 Screens
 
-## Building the APK
+```
+├── Home (Trending Feed)     — All trending videos, filterable
+├── Topics                   — Trending hashtags ranked by growth
+├── Creator Insights         — Analytics + AI content ideas
+└── Location Picker          — GPS or manual state/district selection
+```
 
-This app uses Buildozer to create an Android APK. To build the APK:
+---
 
-1. Install Buildozer and its dependencies:
-   ```
-   pip install buildozer
-   ```
+## 🏗️ Architecture
 
-2. For Ubuntu/Debian, install required packages:
-   ```
-   sudo apt-get install -y python3-pip build-essential git python3 python3-dev ffmpeg libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libportmidi-dev libswscale-dev libavformat-dev libavcodec-dev zlib1g-dev
-   ```
+```
+lib/
+├── main.dart                    # App entry + bottom nav
+├── constants/
+│   └── app_constants.dart       # Theme, colors
+├── models/
+│   └── trending_video.dart      # Data models
+├── providers/
+│   ├── trending_provider.dart   # State management (videos, filters)
+│   └── location_provider.dart   # Location state
+├── screens/
+│   ├── home_screen.dart         # Main feed
+│   ├── video_detail_screen.dart # Video detail + AI insights
+│   ├── topics_screen.dart       # Trending hashtags
+│   ├── analytics_screen.dart    # Creator analytics
+│   └── location_screen.dart     # Location picker
+├── services/
+│   └── mock_data_service.dart   # Data layer (swap for real API)
+└── widgets/
+    └── video_card.dart          # Reusable video card
+```
 
-3. Build the APK:
-   ```
-   buildozer android debug
-   ```
+---
 
-4. The APK will be generated in the `bin/` directory.
+## 🚀 Getting Started
 
-## Requirements
+### Prerequisites
+- Flutter 3.19+ ([install guide](https://docs.flutter.dev/get-started/install))
+- Android Studio or VS Code
+- Android device or emulator (API 21+)
 
-- Python 3.7+
-- Kivy 2.2.1
-- KivyMD 1.1.1
+### Run locally
+```bash
+git clone https://github.com/YOUR_USERNAME/trendvault.git
+cd trendvault
+flutter pub get
+flutter run
+```
 
-## License
+### Build APK manually
+```bash
+# Debug APK
+flutter build apk --debug
 
-MIT
+# Release APK (universal)
+flutter build apk --release
+
+# Split APKs per ABI (smaller size)
+flutter build apk --release --split-per-abi
+```
+
+---
+
+## 🔄 CI/CD — Auto APK Build
+
+Every push to `main` builds a **debug APK** automatically via GitHub Actions.
+
+To trigger a **release build + GitHub Release**:
+```bash
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+This will:
+1. Run tests & lint
+2. Build release APK
+3. Create a GitHub Release with the APK attached
+
+### GitHub Secrets needed for signed release
+| Secret | Description |
+|---|---|
+| `KEYSTORE_BASE64` | Base64-encoded `.jks` keystore file |
+| `KEY_ALIAS` | Key alias inside keystore |
+| `KEY_PASSWORD` | Key password |
+| `STORE_PASSWORD` | Keystore password |
+
+Generate a keystore:
+```bash
+keytool -genkey -v -keystore trendvault-release.jks \
+  -alias trendvault -keyalg RSA -keysize 2048 -validity 10000
+
+# Then encode it:
+base64 trendvault-release.jks | pbcopy   # macOS
+base64 trendvault-release.jks            # Linux (copy output)
+```
+
+---
+
+## 🗺️ Location Features
+
+The app supports filtering at 4 levels:
+
+```
+🌍 India (Country)
+  └── 🗺️ Telangana (State)
+        └── 📍 Hyderabad (District)
+              └── 🏙️ Hyderabad City
+```
+
+**Example:** When Hyderabad has municipal elections, videos with `#HyderabadElections` or `#GHMC` appear at the top when the user is filtering by Hyderabad.
+
+---
+
+## 🔌 Connecting Real APIs
+
+The app is architected so `mock_data_service.dart` can be swapped for real API calls:
+
+| Platform | API / Method |
+|---|---|
+| YouTube | YouTube Data API v3 — `videos.list` with `chart=mostPopular` |
+| Instagram | Meta Graph API — trending reels by region |
+| X (Twitter) | Twitter API v2 — `GET /2/trends/by/woeid` |
+| Facebook | Meta Graph API — trending videos |
+| TikTok | TikTok Research API — trending hashtags |
+
+Replace `MockDataService.generateTrendingVideos()` with your API service.
+
+---
+
+## 📦 Key Dependencies
+
+| Package | Purpose |
+|---|---|
+| `provider` | State management |
+| `geolocator` | GPS location detection |
+| `geocoding` | Reverse geocoding (lat/lng → city name) |
+| `cached_network_image` | Efficient image loading |
+| `url_launcher` | Open videos on platforms |
+| `timeago` | Relative timestamps |
+| `fl_chart` | Analytics charts |
+| `share_plus` | Share videos |
+
+---
+
+## 📋 Roadmap
+
+- [ ] Real API integrations (YouTube, Instagram, X)
+- [ ] Push notifications for trending spikes
+- [ ] Saved/bookmarked videos
+- [ ] Content calendar integration
+- [ ] Cross-platform: iOS support
+- [ ] Regional language support (Telugu, Hindi, Tamil)
+- [ ] Dark/Light theme toggle
+
+---
+
+## 🤝 Contributing
+
+1. Fork the repo
+2. Create feature branch: `git checkout -b feature/my-feature`
+3. Commit: `git commit -m 'Add my feature'`
+4. Push: `git push origin feature/my-feature`
+5. Open a Pull Request
+
+---
+
+## 📄 License
+
+MIT License — see [LICENSE](LICENSE)
